@@ -1,8 +1,8 @@
 {
-  "name": "examify-web",
+  "name": "weatherify",
   "version": "0.1.0",
   "config": {
-    "stack_name": "examify-web"
+    "stack_name": "weatherify"
   },
   "dependencies": {
     "@material-ui/core": "^1.0.0",
