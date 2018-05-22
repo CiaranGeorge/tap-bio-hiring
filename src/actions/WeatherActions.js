@@ -26,29 +26,45 @@ export function fetchWeatherFail(error) {
 
 const key =  "9babc235ef4b106678fa36e9695fe4bf";
 
-let url = "https://api.darksky.net/forecast/$key/$long,$lat,$date?exclude=currently,minutely,hourly,alerts"
+const corsProxy = "https://cors-anywhere.herokuapp.com/";
+
+const years = 5;
+
+let url = corsProxy + "https://api.darksky.net/forecast/$key/$lat,$long,$date?exclude=currently,minutely,hourly,alerts"
 
 export function requestWeather() {
     return (dispatch, getState) => {
         let state = getState().weatherReducer;
-       url = url
+        let weatherData = [];
+       let newUrl = url
             .replace("$key",key)
-            .replace("$long",state.location.longitude)
-            .replace("$lat",state.location.latitude)
-            .replace("$date",getUnixTime(state.date));
-        dispatch(fetchWeather());
-        fetch(url)
-            .then(response => {
-                return response.json()
-            }
-            )
-            .then(weather =>
-                dispatch(fetchWeatherSuccess(weather))
-            ).catch(error => {
-                console.error(error);
-                dispatch(fetchWeatherFail(error))
-            })
+           .replace("$long",state.location.longitude)
+           .replace("$lat", state.location.latitude);
+       const results = getDates(state.date).map(async (date) => {
+           dispatch(fetchWeather());
+           console.log(date);
+           return fetch(newUrl.replace("$date",getUnixTime(date)), {
+               method: 'GET',
+               mode: 'cors',
+               headers: {
+                   'X-Requested-With': '*'
+               }
+           }).then(response => response.json())
+               .then((weather) => weatherData.push(weather))
+       });
+
+        Promise.all(results).then(() => {
+            dispatch(fetchWeatherSuccess(weatherData));
+        });
     }
+}
+
+function getDates(date) {
+    return Array(years)
+        .fill()
+        .map((element, index) =>
+            new Date(date.getFullYear()
+                - index, date.getMonth(), date.getDate()));
 }
 
 function getUnixTime(date) {

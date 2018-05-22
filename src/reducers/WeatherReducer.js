@@ -11,6 +11,8 @@ export default function locationReducer(state = initialState, action) {
             return Object.assign({}, state, {location: {longitude: state.location.longitude, latitude: action.latitude}});
         case types.FETCH_WEATHER:
             return Object.assign({}, state, {isLoading: true});
+        case types.FETCH_WEATHER_SUCCESS:
+            return Object.assign({}, state, {isLoading: false, weather: action.weather});
         default:
             return state;
     }

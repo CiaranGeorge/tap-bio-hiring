@@ -4,8 +4,6 @@ export default {
         longitude: 0
     },
     date: new Date(),
-    weather: {
-
-    },
+    weather: [],
     isLoading: false
 };

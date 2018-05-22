@@ -5,7 +5,7 @@ import thunk from 'redux-thunk';
 import {ConnectedRouter, routerMiddleware} from 'react-router-redux'
 import weatherify from './common/Reducers';
 import Routes from "./common/Routes";
-import createHistory from 'history/createBrowserHistory'
+import createHistory from 'history/createBrowserHistory';
 
 const history = createHistory();
 
