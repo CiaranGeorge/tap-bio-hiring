@@ -1,5 +1,5 @@
 {
-  "name": "examify-web",
+  "name": "weatherify",
   "version": "0.1.0",
   "config": {
     "stack_name": "examify-web"
