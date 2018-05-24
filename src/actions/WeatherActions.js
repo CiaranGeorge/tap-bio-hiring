@@ -62,9 +62,10 @@ export function requestWeather() {
 function getDates(date) {
     return Array(years)
         .fill()
-        .map((element, index) =>
-            new Date(date.getFullYear()
-                - index, date.getMonth(), date.getDate()));
+        .map((element, index) => {
+            date = new Date(date);
+            return new Date(date.getFullYear()
+                - index, date.getMonth(), date.getDate())});
 }
 
 function getUnixTime(date) {
